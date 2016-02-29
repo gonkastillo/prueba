@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Contabilidad.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Banco">
+          <Key>
+            <PropertyRef Name="BancoID" />
+          </Key>
+          <Property Name="BancoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="CategoriaID" />
+          </Key>
+          <Property Name="CategoriaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="EmpresaID" />
+            <PropertyRef Name="EmpleadoID" />
+          </Key>
+          <Property Name="EmpresaID" Type="int" Nullable="false" />
+          <Property Name="EmpleadoID" Type="int" Nullable="false" />
+          <Property Name="Legajo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CUIL" Type="char" MaxLength="11" />
+          <Property Name="FechaIngreso" Type="datetime" />
+          <Property Name="CategoriaID" Type="int" />
+          <Property Name="EstadoCivilID" Type="int" />
+          <Property Name="ObraSocialID" Type="int" />
+          <Property Name="TieneConyuge" Type="bit" Nullable="false" />
+          <Property Name="TieneHijos" Type="bit" Nullable="false" />
+          <Property Name="TieneOtrasCargas" Type="bit" Nullable="false" />
+          <Property Name="TienePrimasSeguro" Type="bit" Nullable="false" />
+          <Property Name="TieneGastosSepelio" Type="bit" Nullable="false" />
+          <Property Name="SindicatoID" Type="int" />
+          <Property Name="EstaAfiliado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="EmpresaID" />
+          </Key>
+          <Property Name="EmpresaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Logo" Type="varbinary" MaxLength="50" />
+          <Property Name="Domicilio" Type="varchar" MaxLength="150" />
+          <Property Name="CUIT" Type="char" MaxLength="11" />
+          <Property Name="BancoID" Type="int" />
+          <Property Name="FechaUltimoDeposito" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ObraSocial">
+          <Key>
+            <PropertyRef Name="ObraSocialID" />
+          </Key>
+          <Property Name="ObraSocialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sindicato">
+          <Key>
+            <PropertyRef Name="SindicatoID" />
+          </Key>
+          <Property Name="SindicatoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SindicatoCodigo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PorcentajeAfiliado" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="PorcentajeNoAfiliado" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="SeguroSepelioAfiliado" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="SeguroSepelioNoAfiliado" Type="decimal" Precision="15" Scale="2" />
+        </EntityType>
+        <EntityType Name="UsuarioSistema">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EstaActivo" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsuarioSistemaEmpresa">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+            <PropertyRef Name="EmpresaID" />
+          </Key>
+          <Property Name="UsuarioID" Type="int" Nullable="false" />
+          <Property Name="EmpresaID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Empleado_Categoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="CategoriaID" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="CategoriaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="ObraSocialID" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="ObraSocialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_Sindicato">
+          <End Role="Sindicato" Type="Self.Sindicato" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sindicato">
+              <PropertyRef Name="SindicatoID" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="SindicatoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empresa_Banco">
+          <End Role="Banco" Type="Self.Banco" Multiplicity="0..1" />
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banco">
+              <PropertyRef Name="BancoID" />
+            </Principal>
+            <Dependent Role="Empresa">
+              <PropertyRef Name="BancoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ContabilidadModelsStoreContainer">
+          <EntitySet Name="Banco" EntityType="Self.Banco" Schema="General" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="General" store:Type="Tables" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="General" store:Type="Tables" />
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="General" store:Type="Tables" />
+          <EntitySet Name="ObraSocial" EntityType="Self.ObraSocial" Schema="General" store:Type="Tables" />
+          <EntitySet Name="Sindicato" EntityType="Self.Sindicato" Schema="General" store:Type="Tables" />
+          <EntitySet Name="UsuarioSistema" EntityType="Self.UsuarioSistema" Schema="General" store:Type="Tables" />
+          <EntitySet Name="UsuarioSistemaEmpresa" EntityType="Self.UsuarioSistemaEmpresa" Schema="General" store:Type="Tables" />
+          <AssociationSet Name="FK_Empleado_Categoria" Association="Self.FK_Empleado_Categoria">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_ObraSocial" Association="Self.FK_Empleado_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Sindicato" Association="Self.FK_Empleado_Sindicato">
+            <End Role="Sindicato" EntitySet="Sindicato" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empresa_Banco" Association="Self.FK_Empresa_Banco">
+            <End Role="Banco" EntitySet="Banco" />
+            <End Role="Empresa" EntitySet="Empresa" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Contabilidad.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Banco">
+          <Key>
+            <PropertyRef Name="BancoID" />
+          </Key>
+          <Property Name="BancoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Empresas" Relationship="Self.FK_Empresa_Banco" FromRole="Banco" ToRole="Empresa" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="CategoriaID" />
+          </Key>
+          <Property Name="CategoriaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Empleadoes" Relationship="Self.FK_Empleado_Categoria" FromRole="Categoria" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="EmpresaID" />
+            <PropertyRef Name="EmpleadoID" />
+          </Key>
+          <Property Name="EmpresaID" Type="Int32" Nullable="false" />
+          <Property Name="EmpleadoID" Type="Int32" Nullable="false" />
+          <Property Name="Legajo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CUIL" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="FechaIngreso" Type="DateTime" Precision="3" />
+          <Property Name="CategoriaID" Type="Int32" />
+          <Property Name="EstadoCivilID" Type="Int32" />
+          <Property Name="ObraSocialID" Type="Int32" />
+          <Property Name="TieneConyuge" Type="Boolean" Nullable="false" />
+          <Property Name="TieneHijos" Type="Boolean" Nullable="false" />
+          <Property Name="TieneOtrasCargas" Type="Boolean" Nullable="false" />
+          <Property Name="TienePrimasSeguro" Type="Boolean" Nullable="false" />
+          <Property Name="TieneGastosSepelio" Type="Boolean" Nullable="false" />
+          <Property Name="SindicatoID" Type="Int32" />
+          <Property Name="EstaAfiliado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Categoria" Relationship="Self.FK_Empleado_Categoria" FromRole="Empleado" ToRole="Categoria" />
+          <NavigationProperty Name="ObraSocial" Relationship="Self.FK_Empleado_ObraSocial" FromRole="Empleado" ToRole="ObraSocial" />
+          <NavigationProperty Name="Sindicato" Relationship="Self.FK_Empleado_Sindicato" FromRole="Empleado" ToRole="Sindicato" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="EmpresaID" />
+          </Key>
+          <Property Name="EmpresaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Logo" Type="Binary" MaxLength="50" FixedLength="false" />
+          <Property Name="Domicilio" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CUIT" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="BancoID" Type="Int32" />
+          <Property Name="FechaUltimoDeposito" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Banco" Relationship="Self.FK_Empresa_Banco" FromRole="Empresa" ToRole="Banco" />
+        </EntityType>
+        <EntityType Name="ObraSocial">
+          <Key>
+            <PropertyRef Name="ObraSocialID" />
+          </Key>
+          <Property Name="ObraSocialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Empleadoes" Relationship="Self.FK_Empleado_ObraSocial" FromRole="ObraSocial" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="Sindicato">
+          <Key>
+            <PropertyRef Name="SindicatoID" />
+          </Key>
+          <Property Name="SindicatoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SindicatoCodigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PorcentajeAfiliado" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="PorcentajeNoAfiliado" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="SeguroSepelioAfiliado" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="SeguroSepelioNoAfiliado" Type="Decimal" Precision="15" Scale="2" />
+          <NavigationProperty Name="Empleadoes" Relationship="Self.FK_Empleado_Sindicato" FromRole="Sindicato" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="UsuarioSistema">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+          </Key>
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EstaActivo" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsuarioSistemaEmpresa">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+            <PropertyRef Name="EmpresaID" />
+          </Key>
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" />
+          <Property Name="EmpresaID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Empresa_Banco">
+          <End Role="Banco" Type="Self.Banco" Multiplicity="0..1" />
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banco">
+              <PropertyRef Name="BancoID" />
+            </Principal>
+            <Dependent Role="Empresa">
+              <PropertyRef Name="BancoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_Categoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="CategoriaID" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="CategoriaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="ObraSocialID" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="ObraSocialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Empleado_Sindicato">
+          <End Role="Sindicato" Type="Self.Sindicato" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sindicato">
+              <PropertyRef Name="SindicatoID" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="SindicatoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GarCasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bancoes" EntityType="Self.Banco" />
+          <EntitySet Name="Categorias" EntityType="Self.Categoria" />
+          <EntitySet Name="Empleadoes" EntityType="Self.Empleado" />
+          <EntitySet Name="Empresas" EntityType="Self.Empresa" />
+          <EntitySet Name="ObraSocials" EntityType="Self.ObraSocial" />
+          <EntitySet Name="Sindicatoes" EntityType="Self.Sindicato" />
+          <EntitySet Name="UsuarioSistemas" EntityType="Self.UsuarioSistema" />
+          <EntitySet Name="UsuarioSistemaEmpresas" EntityType="Self.UsuarioSistemaEmpresa" />
+          <AssociationSet Name="FK_Empresa_Banco" Association="Self.FK_Empresa_Banco">
+            <End Role="Banco" EntitySet="Bancoes" />
+            <End Role="Empresa" EntitySet="Empresas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Categoria" Association="Self.FK_Empleado_Categoria">
+            <End Role="Categoria" EntitySet="Categorias" />
+            <End Role="Empleado" EntitySet="Empleadoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_ObraSocial" Association="Self.FK_Empleado_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocials" />
+            <End Role="Empleado" EntitySet="Empleadoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Empleado_Sindicato" Association="Self.FK_Empleado_Sindicato">
+            <End Role="Sindicato" EntitySet="Sindicatoes" />
+            <End Role="Empleado" EntitySet="Empleadoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ContabilidadModelsStoreContainer" CdmEntityContainer="GarCasEntities">
+          <EntitySetMapping Name="Bancoes">
+            <EntityTypeMapping TypeName="Contabilidad.Models.Banco">
+              <MappingFragment StoreEntitySet="Banco">
+                <ScalarProperty Name="BancoID" ColumnName="BancoID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categorias">
+            <EntityTypeMapping TypeName="Contabilidad.Models.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="CategoriaID" ColumnName="CategoriaID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleadoes">
+            <EntityTypeMapping TypeName="Contabilidad.Models.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="EmpresaID" ColumnName="EmpresaID" />
+                <ScalarProperty Name="EmpleadoID" ColumnName="EmpleadoID" />
+                <ScalarProperty Name="Legajo" ColumnName="Legajo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="CUIL" ColumnName="CUIL" />
+                <ScalarProperty Name="FechaIngreso" ColumnName="FechaIngreso" />
+                <ScalarProperty Name="CategoriaID" ColumnName="CategoriaID" />
+                <ScalarProperty Name="EstadoCivilID" ColumnName="EstadoCivilID" />
+                <ScalarProperty Name="ObraSocialID" ColumnName="ObraSocialID" />
+                <ScalarProperty Name="TieneConyuge" ColumnName="TieneConyuge" />
+                <ScalarProperty Name="TieneHijos" ColumnName="TieneHijos" />
+                <ScalarProperty Name="TieneOtrasCargas" ColumnName="TieneOtrasCargas" />
+                <ScalarProperty Name="TienePrimasSeguro" ColumnName="TienePrimasSeguro" />
+                <ScalarProperty Name="TieneGastosSepelio" ColumnName="TieneGastosSepelio" />
+                <ScalarProperty Name="SindicatoID" ColumnName="SindicatoID" />
+                <ScalarProperty Name="EstaAfiliado" ColumnName="EstaAfiliado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empresas">
+            <EntityTypeMapping TypeName="Contabilidad.Models.Empresa">
+              <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="EmpresaID" ColumnName="EmpresaID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Domicilio" ColumnName="Domicilio" />
+                <ScalarProperty Name="CUIT" ColumnName="CUIT" />
+                <ScalarProperty Name="BancoID" ColumnName="BancoID" />
+                <ScalarProperty Name="FechaUltimoDeposito" ColumnName="FechaUltimoDeposito" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObraSocials">
+            <EntityTypeMapping TypeName="Contabilidad.Models.ObraSocial">
+              <MappingFragment StoreEntitySet="ObraSocial">
+                <ScalarProperty Name="ObraSocialID" ColumnName="ObraSocialID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sindicatoes">
+            <EntityTypeMapping TypeName="Contabilidad.Models.Sindicato">
+              <MappingFragment StoreEntitySet="Sindicato">
+                <ScalarProperty Name="SindicatoID" ColumnName="SindicatoID" />
+                <ScalarProperty Name="SindicatoCodigo" ColumnName="SindicatoCodigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="PorcentajeAfiliado" ColumnName="PorcentajeAfiliado" />
+                <ScalarProperty Name="PorcentajeNoAfiliado" ColumnName="PorcentajeNoAfiliado" />
+                <ScalarProperty Name="SeguroSepelioAfiliado" ColumnName="SeguroSepelioAfiliado" />
+                <ScalarProperty Name="SeguroSepelioNoAfiliado" ColumnName="SeguroSepelioNoAfiliado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuarioSistemas">
+            <EntityTypeMapping TypeName="Contabilidad.Models.UsuarioSistema">
+              <MappingFragment StoreEntitySet="UsuarioSistema">
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="EstaActivo" ColumnName="EstaActivo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuarioSistemaEmpresas">
+            <EntityTypeMapping TypeName="Contabilidad.Models.UsuarioSistemaEmpresa">
+              <MappingFragment StoreEntitySet="UsuarioSistemaEmpresa">
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="EmpresaID" ColumnName="EmpresaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8480baaaa789446e8e2862e5c206fcdd" Name="Diagram1">
+        <EntityTypeShape EntityType="Contabilidad.Models.Banco" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Contabilidad.Models.Categoria" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Contabilidad.Models.Empleado" Width="1.5" PointX="3" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Contabilidad.Models.Empresa" Width="1.5" PointX="8" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Contabilidad.Models.ObraSocial" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Contabilidad.Models.Sindicato" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Contabilidad.Models.UsuarioSistema" Width="1.5" PointX="5.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Contabilidad.Models.UsuarioSistemaEmpresa" Width="1.5" PointX="2.75" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="Contabilidad.Models.FK_Empresa_Banco" ManuallyRouted="false" />
+        <AssociationConnector Association="Contabilidad.Models.FK_Empleado_Categoria" ManuallyRouted="false" />
+        <AssociationConnector Association="Contabilidad.Models.FK_Empleado_ObraSocial" ManuallyRouted="false" />
+        <AssociationConnector Association="Contabilidad.Models.FK_Empleado_Sindicato" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
